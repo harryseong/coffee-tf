@@ -6,7 +6,7 @@ exports.handler = async (event) => {
     const docClient = new AWS.DynamoDB.DocumentClient();
     const eventBody = JSON.parse(event.body);
     var params = {
-        TableName: "coffee_grinders",
+        TableName: process.env.DYNAMODB_TABLE,
         Key: eventBody.key,
         UpdateExpression: "set details = :details",
         ExpressionAttributeValues: {

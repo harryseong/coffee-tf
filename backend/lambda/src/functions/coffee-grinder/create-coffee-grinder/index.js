@@ -5,7 +5,7 @@ AWS.config.update({ region: process.env.AWS_REGION });
 exports.handler = async (event) => {
     const docClient = new AWS.DynamoDB.DocumentClient();
     const params = {
-        TableName: "coffee_grinders",
+        TableName: process.env.DYNAMODB_TABLE,
         Item: JSON.parse(event.body)
     };
 
