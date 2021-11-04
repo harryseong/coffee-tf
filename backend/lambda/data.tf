@@ -3,7 +3,7 @@ data "aws_region" "current" {}
 data "aws_caller_identity" "current" {}
 
 data "archive_file" "lambda_layer" {
-  for_each = toset(keys(local.layer_configs))
+  for_each = local.layer_configs
 
   type        = local.output_type
   source_dir  = "${path.module}/src/layers/${each.key}"
@@ -11,11 +11,11 @@ data "archive_file" "lambda_layer" {
 }
 
 data "archive_file" "lambda_function" {
-  for_each = toset(keys(local.function_configs))
+  for_each = local.function_configs
 
   type        = local.output_type
-  source_dir  = "${path.module}/src/functions/${each.key}"
-  output_path = "${path.module}/src/functions/${each.key}.${local.output_type}"
+  source_dir  = "${path.module}/src/functions/${each.value.function_src_dir}/${each.key}"
+  output_path = "${path.module}/src/functions/${each.value.function_src_dir}/${each.key}.${local.output_type}"
 }
 
 data "aws_lambda_layer_version" "ssm_access" {

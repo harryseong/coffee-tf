@@ -5,15 +5,14 @@ AWS.config.update({ region: process.env.AWS_REGION });
 exports.handler = async (event) => {
     const docClient = new AWS.DynamoDB.DocumentClient();
     const params = {
-        TableName: event.queryStringParameters.table,
-        Item: JSON.parse(event.body)
+        TableName: "coffee_makers",
     };
 
     try {
-        console.log(`Creating new item with params: ${JSON.stringify(params)}`);
-        await docClient.put(params).promise();
-        console.log(`Created successfully: ${JSON.stringify(params)}`)
-        return;
+        console.log(`Fetching items with params: ${JSON.stringify(params)}`);
+        const data = await docClient.scan(params).promise();
+        console.log(`Count: ${data.Count}, Scanned Count: ${data.ScannedCount}`);
+        return data.Items;
     } catch (error) {
         console.error(error.stack);
         return error;

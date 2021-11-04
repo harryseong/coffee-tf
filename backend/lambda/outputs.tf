@@ -5,7 +5,8 @@ output "functions" {
       for function in keys(local.function_configs) :
       map(
         "arn", module.lambda_function[function].lambda_function_arn,
-        "method", local.function_configs[function].method
+        "method", local.function_configs[function].method,
+        "api_route", local.function_configs[function].api_route,
       )
   ])
 }

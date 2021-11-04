@@ -15,7 +15,7 @@ resource "aws_apigatewayv2_route" "route" {
   for_each = var.lambda_functions
 
   api_id    = data.aws_apigatewayv2_api.api_gateway.id
-  route_key = "${each.value.method} /v1/coffee"
+  route_key = "${each.value.method} ${each.value.api_route}"
 
   target = "integrations/${aws_apigatewayv2_integration.lambda_integration[each.key].id}"
 }

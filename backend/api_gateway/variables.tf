@@ -20,7 +20,11 @@ variable "public_hosted_zone_id" {
 
 variable "lambda_functions" {
   description = "Map of lambda function names and ARNs."
-  type        = map(object({ arn : string, method : string }))
+  type = map(object({
+    arn : string,
+    method : string,
+    api_route : string
+  }))
 }
 
 variable "api_gatweway_id" {
